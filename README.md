@@ -3,53 +3,45 @@ Web UI for KubeEdge
 
 ## Environment Prepare
 
-Install `node_modules`:
+nodejs, npm/yarn/pnpm is needed, pnpm is recommended
 
-```bash
+## Install packages
+
+```bash with npm
 npm install
 ```
 
 or
 
-```bash
-yarn
+```bash with yarn
+yarn install
 ```
 
-## Provided Scripts
+or
 
-kubeedge provides some useful script to help you quick start and build with web project, code style check and test.
-
-Scripts provided in `package.json`. It's safe to modify or add additional script:
+```bash with pnpm
+pnpm install
+```
 
 ### Start project
 
-正常启动请运行
-npm start:dev
+```bash with npm
+npm run dev --apiserver=[[proxy address, eg. https://192.168.33.129:6443]]
+```
+or
 
-Mock测试模式请运行
-npm start
+```bash with yarn
+yarn dev --apiserver=[[proxy address, eg. https://192.168.33.129:6443]]
+```
+or
+
+```bash with pnpm
+pnpm dev --apiserver=[[proxy address, eg. https://192.168.33.129:6443]]
 ```
 
-### Build project
-
+### Login with token
 ```bash
-npm run build
-```
-
-### Check code style
-
-```bash
-npm run lint
-```
-
-You can also use script to auto fix some lint error:
-
-```bash
-npm run lint:fix
-```
-
-### Test code
-
-```bash
-npm test
+kubectl create serviceaccount curl-user -n kube-system
+kubectl create clusterrolebinding curl-user-binding --clusterrole=cluster-admin --serviceaccount=kube-system:curl-user -n kube-system
+kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep curl-user | awk '{print $1}'
 ```
